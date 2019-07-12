@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lims.dao.UserMapper">
+	
+	<!-- TODO 字段检查 -->
+	<insert id="addTeacher" parameterType="com.lims.model.User"
+	        useGeneratedKeys="true" keyProperty="teacher.userId">
+		INSERT INTO `LIMS`.`user`
+		(`user_id`, `user_name`, `user_passwd`,`user_sex`, `user_phone`, `user_email`, `user_bio`, `user_major`)
+		VALUES (NULL, #{teacher.userName,jdbcType=VARCHAR}, #{teacher.userPasswd,jdbcType=VARCHAR},
+		        #{teacher.userSex,jdbcType=VARCHAR},
+		        #{teacher.userPhone,jdbcType=VARCHAR}, #{teacher.userEmail,jdbcType=VARCHAR},
+		        #{teacher.userBio,jdbcType=VARCHAR}, #{teacher.userMajor,jdbcType=VARCHAR});
+	</insert>
+	
+	<delete id="deleteTeacher">
+		DELETE
+		FROM `user`
+		WHERE user_id = #{id} AND user_role != 'admin'
+	</delete>
+	
+	<!-- 不更新密码 -->
+	<update id="changeTeacher" parameterType="com.lims.model.User">
+		UPDATE `user`
+		<set>
+			<if test="teacher.userName != null and teacher.userName != ''">
+				user_name = #{teacher.userName,jdbcType=VARCHAR},
+			</if>
+			<if test='param1.userSex == "女" and param1.userSex == "男"'>
+				user_sex = #{teacher.userSex,jdbcType=VARCHAR} ,
+			</if>
+			<if test="teacher.userPhone != null and teacher.userPhone != ''">
+				user_phone = #{teacher.userPhone,jdbcType=VARCHAR} ,
+			</if>
+			<if test="teacher.userEmail != null and teacher.userEmail != ''">
+				user_email = #{teacher.userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher.userBio != null and teacher.userBio != ''">
+				user_bio = #{teacher.userBio,jdbcType=VARCHAR} ,
+			</if>
+			<if test="teacher.userMajor != null and teacher.userMajor != ''">
+				user_major = #{teacher.userMajor,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE user_id = #{teacher.userId}
+	</update>
+	
+	<select id="getDetailTeacher" resultType="com.lims.model.User">
+		SELECT `user_id`,
+		       `user_name`,
+		       `user_avatar`,
+		       `user_sex`,
+		       `user_phone`,
+		       `user_email`,
+		       `user_bio`,
+		       `user_major`,
+		       `user_role`
+		FROM `user`
+		WHERE user_id = #{id}
+	</select>
+	
+	<update id="updateUserAvatar">
+		UPDATE `user`
+		<set>
+			<if test="url != null and url != ''">
+				user_avatar = #{url,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE user_id = #{id}
+	</update>
+	
+	<select id="checkUserPasswd" resultType="int">
+		SELECT COUNT(*)
+		from user
+		WHERE user_id = #{userId} and user_passwd = #{passwd}
+	</select>
+	
+	<update id="resetUserPasswd">
+		UPDATE user
+		SET user_passwd = #{newPasswd}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<select id="getAllTeachers" resultType="com.lims.model.User">
+		SELECT `user_id`,
+		       `user_name`,
+		       `user_avatar`,
+		       `user_sex`,
+		       `user_phone`,
+		       `user_email`,
+		       `user_bio`,
+		       `user_major`,
+		       `user_role`
+		FROM `user`
+	</select>
+
+	<select id="getUserRole" resultType="string">
+		SELECT user_role
+		from user
+		WHERE user_id = #{userId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>长恨歌售票系统</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+
+</head>
+
+<body>
+<div class="header">
+    <ul class="layui-nav" lay-filter="">
+        <a th:href="@{/index}"><img class="layui-icon" th:src="@{/resources/images/logo.png}"
+                                    style="width: 30px; height: 30px"></a>
+        <li class="layui-nav-item"><a th:href="@{/index}">首页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/introduce}">长恨歌介绍</a></li>
+        <li class="layui-nav-item"><a th:href="@{/plot}">长恨歌剧情</a></li>
+        <li class="layui-nav-item"><a th:href="@{/order}">长恨歌预定</a></li>
+        <li class="layui-nav-item layui-this">
+            <a href="javascript:;">常见问题</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd><a th:href="@{/transportation}">交通方式</a></dd>
+                <dd><a th:href="@{/seat}">座位图</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">关于我们</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <span th:text="*{loginUser}"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/profile}">基本资料</a></dd>
+                <dd><a th:href="@{/user/security}">安全设置</a></dd>
+                <dd><a th:href="@{/user/user-order}">我的预定</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a th:href="@{/user/logout}">注销</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/login}">登录</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/register}">注册</a>
+        </li>
+    </ul>
+</div>
+
+
+    <br /><br />
+
+    <div class="layui-main">
+        <h1 style="text-align: center">交通方式</h1>
+        <hr />
+
+        <div class="layui-row">
+            <div class="tips layui-col-md10 layui-col-lg10 layui-col-md-offset1">
+                <div class="layui-collapse">
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">公交</h2>
+                        <div class="layui-colla-content layui-show" style="background-color: white;">
+                            ★从西安火车站东广场（不是西安高铁北站）乘坐游5、914、915路公交在“华清池”站下车即到，到达时间大概1.5小时。【推荐游5】,公交车时间，首班： 07:00 　末班：
+                            19:00；票价：6元；<br /><br />
+
+                            ★如果在大唐芙蓉园、大雁塔、轻工市场、互助路立交等附近可以乘坐307路到达华清池景区，达到时间大概2小时。公交车时间，首班： 06:30 　末班：
+                            18:30；票价：7元；<br /><br />
+
+                            ★西安北站（高铁站），公交路线：地铁2号线 → 地铁1号线 → 307路 ，耗时2小时15分钟（不建议）；出租车（网约车）：预计100元左右，用时50分钟。<br /><br />
+
+                            ★西安咸阳国际机场，公交(咸阳机场(T3航站楼一层综合交通枢纽)—临潼汽车站)参考票价为30元，出租车,预计120元，用时70分钟。
+
+                        </div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">返程</h2>
+                        <div class="layui-colla-content layui-show" style="background-color: white;">乘坐914，915终点西安火车站，价格10元，有演出就会有返程车。出租车到钟楼120元左右。</div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">自驾</h2>
+                        <div class="layui-colla-content layui-show" style="background-color: white;">
+                            1）从西安方向出发：<br />
+
+                            ★经西临高速公路向东前行，在兵马俑收费站下高速，只需30分钟即可到达华清池；<br />
+
+                            ★经国道308向东前行，可到达华清池景区；<br />
+
+                            ★景区有收费停车场；<br /><br />
+
+                            2）从渭南方向出发：<br />
+
+                            ★经西临高速公路向西前行，在兵马俑收费站下高速，只需50分钟即可到达华清池；<br />
+
+                            ★经国道308向西前行，可到达华清池景区；<br />
+
+                            ★景区有收费停车场；景区外围停车场：铁疗、临潼区博物馆、陕西省老干部疗养中心、曲江大唐华清城停车场。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br />
+
+    <div class="layui-footer footer layui-col-md12">
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">长恨歌预定</h2><br />
+            <span class="layui-text">
+                长恨歌介绍，长恨歌演出时间，长恨歌观看攻略，长恨歌门票预订(非官网)
+            </span>
+        </div>
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">联系方式</h2><br />
+            <span class="layui-text">
+                邮箱 bmingyy@qq.com<br />
+                电话 1234556788
+            </span>
+        </div>
+    </div>
+    <div class="footer-end">
+        <center>
+            <div class="footer-end-some layui-text">
+                声明：本站非长恨歌官方网站,景点详情由我们根据公开信息整理而成.
+            </div>
+        </center>
+    </div>
+
+
+
+    <script th:src="@{/resources/layui/layui.js}"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+            //一些事件监听
+            element.on('tab(demo)', function (data) {
+                console.log(data);
+            });
+        });
+        layui.use('carousel', function () {
+            var carousel = layui.carousel;
+            //建造实例
+            carousel.render({
+                elem: '#lunbotu',
+                width: '80%', //设置容器宽度
+                height: '600px',
+                arrow: 'always' //始终显示箭头
+                //,anim: 'updown' //切换动画方式
+            });
+        });
+    </script>
+</body>
+
+</html>

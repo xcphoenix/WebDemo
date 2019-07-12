@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuanc.chg.dao.PlanMapper">
+	
+	<insert id="addPlan">
+		INSERT INTO
+		plan(plan_id, performance_id, plan_time, plan_duration, play_price, plan_layout)
+		VALUES (NULL, #{plan.performanceId}, #{plan.planTime}, #{plan.planDuration},
+		        #{plan.playPrice}, REPEAT('1', #{count}))
+	</insert>
+	
+	<delete id="delPlan">
+		DELETE
+		FROM plan
+		WHERE plan_id = #{planId} AND
+		      DATE_ADD(plan_time, INTERVAL plan_duration MINUTE ) &lt; NOW()
+	</delete>
+	
+	<select id="searchOnPerId" resultType="int">
+		SELECT COUNT(*)
+		FROM plan
+		WHERE performance_id = #{perId}
+	</select>
+	
+	<select id="getAllPlan" resultType="com.xuanc.chg.model.Plan">
+		SELECT *
+		FROM plan
+		ORDER BY performance_id, plan_time DESC;
+	</select>
+	
+	<select id="isExist" resultType="int">
+		SELECT COUNT(*)
+		FROM plan
+		WHERE plan_id = #{id}
+	</select>
+	
+	<select id="getAvaPlans" resultType="com.xuanc.chg.model.Plan">
+		SELECT *
+		FROM plan
+		WHERE performance_id IS NOT NULL AND plan_time > now();
+	</select>
+	
+	<select id="getPlanLayout" resultType="java.lang.String">
+		SELECT plan_layout
+		FROM plan
+		WHERE plan_id = #{id}
+	</select>
+	
+	<update id="updatePlanLayout">
+		UPDATE plan
+		set plan_layout = #{layout}
+		WHERE plan_id = #{planId}
+	</update>
+	
+	<select id="getPlanDetail" resultType="com.xuanc.chg.model.Plan">
+		SELECT *
+		FROM plan
+		WHERE plan_id = #{id}
+	</select>
+
+</mapper>

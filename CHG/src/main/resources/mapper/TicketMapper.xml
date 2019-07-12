@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuanc.chg.dao.TicketMapper">
+	
+	
+	<insert id="addTicket">
+		INSERT INTO `TTMS`.`ticket` (`ticket_id`, `user_id`, `plan_id`, `ticket_time`, `play_price`, `plan_time`,
+		                             `seat_row`, `seat_col`, `performance_name`, `performance_area`)
+		VALUES (NULL, #{ticket.userId}, #{ticket.planId}, CURRENT_TIMESTAMP, #{ticket.playPrice},
+		        #{ticket.planTime}, #{param1.seatRow}, #{param1.seatCol}, #{ticket.performanceName}, #{ticket.performanceArea});
+	</insert>
+	
+	<select id="getAllTicketsByUser" resultType="com.xuanc.chg.model.Ticket">
+		SELECT *
+		FROM ticket
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="getNumberAsPlan" resultType="int">
+		SELECT COUNT(*)
+		FROM ticket
+		WHERE plan_id = #{planId}
+	</select>
+
+</mapper>

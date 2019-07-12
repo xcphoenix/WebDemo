@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>长恨歌-后台管理</title>
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">CHG 后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/index}" target="_blank">用户端</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    ADMIN
+                </a>
+            </li>
+            <li class="layui-nav-item"><a th:href="@{/user/logout}">注销</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/admin}">用户列表</a></dd>
+                        <dd><a th:href="@{/admin/reset}">重置密码</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">演出计划</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/admin/plan-show}">计划概览</a></dd>
+                        <dd class="layui-this"><a th:href="@{/admin/plan-add}">添加计划</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">演出厅管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/admin/per-show}">演出厅概览</a></dd>
+                        <dd><a th:href="@{/admin/per-add}">添加演出厅</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">信息统计</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body layui-bg-gray">
+
+        <div class="layui-card layui-col-md-offset2 layui-col-m8" style="margin: 50px;">
+            <div class="layui-card-header layui-bg-black"
+                 style="font-size: 18px; text-align: center"><b>添加演出计划</b>
+            </div>
+            <div class="layui-card-body" style="font-size: 16px;">
+
+                <form th:action="@{/plan/admin/add}" th:object="${plan}" method="post">
+                    <b>演出厅ID</b> <br/>
+                    <input type="text" name="userId" required lay-verify="required"
+                           autocomplete="off"
+                           th:field="*{performanceId}" class="layui-input"> <br/>
+                    <b>演出时间</b> <br/>
+                    <!-- 注意：这一层元素并不是必须的 -->
+                    <input type="datetime" class="layui-input" th:field="*{planTime}" /><br />
+                    <b>演出时长</b> <br />
+                    <input type="text" required lay-verify="required"
+                           th:field="*{planDuration}" placeholder="请输入一个整数(单位-分钟)" autocomplete="off" class="layui-input"> <br/>
+                    <b>价格</b> <br />
+                    <input type="text" required lay-verify="required"
+                           th:field="*{playPrice}" autocomplete="off" class="layui-input"> <br/>
+                    <input type="submit" class="layui-btn" value="添加"> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" class="layui-btn" value="重置">
+                </form>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <center>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © CHG.com - 长恨歌售票系统
+        </div>
+    </center>
+
+</div>
+
+<script th:if="${msg}" th:inline="javascript">
+    var msg = [[${msg}]];
+
+    function displayErrorMsg() {
+        layer.open({
+            title: 'Message'
+            , content: msg
+        });
+    }
+
+    setTimeout('displayErrorMsg()', 1000);
+</script>
+
+<script th:src="@{/resources/layui/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        var $ = layui.jquery,
+            layer = layui.layer; //独立版的layer无需执行这一句
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#planTime',
+            type: 'datetime'
+        });
+    });
+</script>
+</body>
+
+</html>

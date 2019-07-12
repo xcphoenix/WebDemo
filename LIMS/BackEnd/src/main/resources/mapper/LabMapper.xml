@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lims.dao.LabMapper">
+	
+	<insert id="addLab" parameterType="com.lims.model.Laboratory"
+	        useGeneratedKeys="true" keyProperty="lab.labId">
+		INSERT INTO `lab`
+			(`lab_name`, `lab_type`, `lab_desc`, `lab_locale`, `lab_cap`)
+		VALUES (#{lab.labName}, #{lab.labType},
+		        #{lab.labDesc}, #{lab.labLocale}, #{lab.labCap});
+	</insert>
+	
+	<delete id="delLab">
+		DELETE
+		FROM lab
+		WHERE lab_id = #{id}
+	</delete>
+	
+	<update id="updateLab">
+		UPDATE `lab`
+		<set>
+			<if test="lab.labName != null and lab.labName != ''">
+				lab_name = #{lab.labName},
+			</if>
+			<if test="lab.labType != null and lab.labType != ''">
+				lab_type = #{lab.labType},
+			</if>
+			<if test="lab.labDesc != null and lab.labDesc != ''">
+				lab_desc = #{lab.labDesc} ,
+			</if>
+			<if test="lab.labLocale != null and lab.labLocale != ''">
+				lab_locale = #{lab.labLocale} ,
+			</if>
+			<if test="lab.labCap != null">
+				lab_cap = #{lab.labCap}
+			</if>
+		</set>
+		WHERE lab_id = #{lab.labId}
+	</update>
+	
+	<select id="getAllBaseDetail" resultType="com.lims.model.LabsMessage">
+		select lab_type    as kind,
+		       concat('[', group_concat(JSON_OBJECT("labId", lab_id, "labName", lab_name, "labLocale",
+		                                            lab_locale, "labCap", lab_cap)),
+		              ']') as laboratoryList
+		from lab
+		group by lab_type;
+	</select>
+	
+	<select id="getLabDetail" resultType="com.lims.model.Laboratory">
+		SELECT lab_id, lab_name, lab_locale, lab_cap
+		FROM lab
+		WHERE lab_id = #{id}
+	</select>
+
+</mapper>

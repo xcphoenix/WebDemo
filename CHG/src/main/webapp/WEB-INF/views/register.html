@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>长恨歌售票系统</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+
+</head>
+
+<body>
+<div class="header">
+    <ul class="layui-nav" lay-filter="">
+        <a th:href="@{/index}"><img class="layui-icon" th:src="@{/resources/images/logo.png}"
+                                    style="width: 30px; height: 30px"></a>
+        <li class="layui-nav-item"><a th:href="@{/index}">首页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/introduce}">长恨歌介绍</a></li>
+        <li class="layui-nav-item"><a th:href="@{/plot}">长恨歌剧情</a></li>
+        <li class="layui-nav-item"><a th:href="@{/order}">长恨歌预定</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">常见问题</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd><a th:href="@{/transportation}">交通方式</a></dd>
+                <dd><a th:href="@{/seat}">座位图</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">关于我们</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <span th:text="*{loginUser}"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/profile}">基本资料</a></dd>
+                <dd><a th:href="@{/user/security}">安全设置</a></dd>
+                <dd><a th:href="@{/user/user-order}">我的预定</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a th:href="@{/user/logout}">注销</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/login}">登录</a>
+        </li>
+        <li class="layui-nav-item layui-this" th:unless="${loginUser}">
+            <a th:href="@{/register}">注册</a>
+        </li>
+    </ul>
+</div>
+
+<br/><br/>
+
+<div class="layui-main">
+    <div class="my-card layui-col-md6 layui-col-md-offset3" style="margin-bottom: 25%;">
+        <center>
+            <div class="layui-text" style="font-size: 17px;">
+                注册
+            </div>
+            <hr/>
+            <br/>
+
+            <form th:action="@{/user/register}" th:object="${user}" method="post">
+                <input type="text" name="title" th:field="*{userName}" required lay-verify="required"
+                       placeholder="请输入用户名" autocomplete="off" class="layui-input"> <br />
+                <input type="password" name="title" th:field="*{userPasswd}" required lay-verify="required"
+                       placeholder="请输入密码" autocomplete="off" class="layui-input"> <br />
+                <input type="text" name="title" th:field="*{userEmail}" required lay-verify="required"
+                       placeholder="请输入邮箱" autocomplete="off" class="layui-input"> <br />
+                <input type="submit" name="注册" class="layui-btn"> <input type="reset" name="重置" class="layui-btn">
+            </form>
+
+            <br/><br/>
+
+        </center>
+
+
+    </div>
+
+</div>
+<div class="layui-footer footer layui-col-md12">
+    <div class="footer-block layui-col-md4 layui-col-md-offset1">
+        <h2 style="color: white">长恨歌预定</h2><br/>
+        <span class="layui-text">
+                长恨歌介绍，长恨歌演出时间，长恨歌观看攻略，长恨歌门票预订(非官网)
+            </span>
+    </div>
+    <div class="footer-block layui-col-md4 layui-col-md-offset1">
+        <h2 style="color: white">联系方式</h2><br/>
+        <span class="layui-text">
+                邮箱 bmingyy@qq.com<br/>
+                电话 1234556788
+            </span>
+    </div>
+</div>
+
+<script th:if="${msg}" th:inline="javascript">
+    var msg = [[${msg}]];
+    function displayErrorMsg() {
+        layer.open({
+            title: 'error'
+            ,content: msg
+        });
+    }
+    setTimeout('displayErrorMsg()', 1000);
+</script>
+
+<script th:src="@{/resources/layui/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+        //一些事件监听
+        element.on('tab(demo)', function (data) {
+            console.log(data);
+        });
+    });
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg('提交成功');
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>

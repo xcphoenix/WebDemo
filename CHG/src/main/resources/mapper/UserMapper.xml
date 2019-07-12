@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuanc.chg.dao.UserMapper">
+	
+	<select id="canLogin" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_name = #{name}
+		  AND user_passwd = #{passwd}
+	</select>
+	
+	<select id="getUserRole" resultType="string">
+		SELECT user_role
+		FROM TTMS.user
+		WHERE user_name = #{name}
+	</select>
+	
+	<insert id="addUser" parameterType="com.xuanc.chg.model.User">
+		INSERT INTO `TTMS`.`user` (`user_name`, `user_passwd`, `user_email`,  `user_role`)
+		VALUES (#{user.userName} , #{user.userPasswd} , #{user.userEmail}, 'user');
+	</insert>
+	
+	<select id="getAllUser" resultType="com.xuanc.chg.model.User">
+		SELECT user_id, user_name, user_email, user_role FROM `user`
+	</select>
+	
+	<select id="getProfile" resultType="com.xuanc.chg.model.User">
+		SELECT user_name, user_email, user_avatar
+		FROM user
+		WHERE user_name = #{username}
+	</select>
+	
+	<update id="updateProfile">
+		UPDATE user
+		SET user_name = #{user.userName,jdbcType=VARCHAR} ,
+		    user_email = #{user.userEmail,jdbcType=VARCHAR}
+		WHERE user_id = #{user.userId}
+	</update>
+	
+	<select id="getUserIdByName" resultType="int">
+		SElECT user_id
+		FROM user
+		WHERE user_name = #{username}
+	</select>
+	
+	<update id="updateUserPasswd">
+		UPDATE user
+		SET user_passwd = #{passwd}
+		WHERE user_name = #{username}
+	</update>
+	
+	<select id="isExist" resultType="int">
+		SELECT COUNT(*)
+		from user
+		WHERE user_id = #{id} AND
+		      user_role = 'user'
+	</select>
+	
+	<update id="resetPasswd">
+		UPDATE user
+		set user_passwd = #{passwd}
+		WHERE user_id = #{userId} AND
+		      user_role = 'user'
+	</update>
+	
+	<delete id="deleteUser">
+		DELETE FROM user
+		WHERE user_id = #{id} AND
+		      user_role = 'user'
+	</delete>
+
+</mapper>

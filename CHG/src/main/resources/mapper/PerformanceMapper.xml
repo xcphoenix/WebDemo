@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuanc.chg.dao.PerformanceMapper">
+	
+	<insert id="addPerformance">
+		INSERT INTO `TTMS`.`performance` (`performance_id`, `performance_name`, `performance_desc`, `performance_area`,
+		                                  `performance_row`, `performance_col`)
+		VALUES (NULL, #{performance.performanceName}, #{performance.performanceDesc},
+		        #{performance.performanceArea}, #{performance.performanceRow}, #{performance.performanceCol});
+	</insert>
+
+	<delete id="delPerformance">
+		DELETE
+		FROM performance
+		WHERE performance_id = #{id}
+	</delete>
+	
+	<select id="getPerformancesDetail" resultType="com.xuanc.chg.model.Performance">
+		SELECT *
+		FROM performance
+	</select>
+	
+	<select id="getPerformanceDetail" resultType="com.xuanc.chg.model.Performance">
+		SELECT *
+		FROM performance
+		WHERE performance_id = #{id}
+	</select>
+	
+	<update id="updatePerformance">
+		UPDATE performance
+		SET performance_name = #{performance.performanceName},
+		    performance_desc = #{performance.performanceDesc},
+		    performance_area = #{performance.performanceArea},
+		    performance_col  = #{param1.performanceCol},
+		    performance_row  = #{performance.performanceRow}
+		WHERE performance_id = #{param1.performanceId}
+	</update>
+
+</mapper>

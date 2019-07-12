@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lims.dao.OrderMapper">
+	
+	<insert id="orderSchedule">
+		INSERT INTO `LIMS`.`schedule` (`lab_id`, `user_id`,
+		                               `schedule_date`, `schedule_stage`, `schedule_status`)
+		VALUES (#{order.oLabId}, #{order.oUserId}, date_add(convert(now(), date), interval #{order.date} day),
+		        #{order.stage},
+		        'reserved');
+	</insert>
+	
+	<select id="checkIsOrdered" resultType="int">
+		SELECT COUNT(*)
+		FROM `schedule`
+		WHERE lab_id = #{order.oLabId}
+		  and schedule_date = date_add(convert(now(), date), interval #{order.date} day)
+		  and schedule_stage = #{order.stage}
+		  and schedule_status = 'reserved'
+	</select>
+	
+	<select id="labCanChecked" resultType="int">
+		select count(*)
+		from schedule
+		where lab_id = #{id}
+		  and schedule_status = 'reserved'
+	</select>
+	
+	<select id="getLabOrders" resultType="com.lims.model.Order">
+		select TIMESTAMPDIFF(day, convert(now(), date), schedule_date) as `date`, schedule_stage as stage
+		from schedule
+		where TIMESTAMPDIFF(day, convert(now(), date), schedule_date) > 0
+		  and lab_id = #{labId}
+		order by TIMESTAMPDIFF(day, convert(now(), date), schedule_date), schedule_stage;
+	</select>
+	
+	<!-- 刷新状态 -->
+	<update id="updateOrderStatus">
+		UPDATE schedule
+		SET schedule_status = 'invalid'
+		WHERE schedule_date &lt; DATE(NOW())
+		   OR (schedule_date = DATE(NOW()) AND
+		       DATE_ADD(DATE(NOW()), INTERVAL
+		                CASE
+			                WHEN schedule_stage = 1 THEN 8
+			                WHEN schedule_stage = 2 THEN 10
+			                WHEN schedule_stage = 3 THEN 14
+			                WHEN schedule_stage = 4 THEN 16
+			                ELSE 0
+			                END
+		                HOUR) &lt; NOW())
+	</update>
+	
+	<select id="getUserOrderList" resultType="com.lims.model.UserOrder">
+		select schedule_id,
+		       lab.lab_id,
+		       lab_name,
+		       lab_locale,
+		       lab_cap,
+		       DATE_ADD(schedule_date, INTERVAL
+		                CASE
+			                WHEN schedule_stage = 1 THEN 8
+			                WHEN schedule_stage = 2 THEN 10
+			                WHEN schedule_stage = 3 THEN 14
+			                WHEN schedule_stage = 4 THEN 16
+			                ELSE 0
+			                END
+		                hour) as order_time,
+		       schedule_status
+		from lab,
+		     schedule
+		where user_id = #{userId}
+		  and lab.lab_id = schedule.lab_id
+		order by order_time DESC, schedule_id;
+	</select>
+	
+	<delete id="deleteOrder">
+		DELETE
+		FROM `LIMS`.`schedule`
+		WHERE `schedule`.`schedule_id` = #{scheduleId}
+		  AND user_id = #{userId}
+	</delete>
+
+</mapper>

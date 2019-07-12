@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lims.dao.TokenMapper">
+	
+	<insert id="createToken">
+		INSERT INTO token
+			(token_id, user_id, user_role, token_time)
+		VALUES (#{token.tokenId}, #{token.userId}, #{token.userRole}, now())
+	</insert>
+	
+	<delete id="deleteToken">
+		DELETE FROM token
+		WHERE token_id = #{tokenId}
+	</delete>
+	
+	<select id="getToken" resultType="com.lims.model.Token">
+		SELECT *
+		FROM token
+		WHERE token_id = #{tokenId}
+	</select>
+
+</mapper>

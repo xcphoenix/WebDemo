@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>长恨歌售票系统</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+
+</head>
+
+<body>
+<div class="header">
+    <ul class="layui-nav" lay-filter="">
+        <a th:href="@{/index}"><img class="layui-icon" th:src="@{/resources/images/logo.png}"
+                                    style="width: 30px; height: 30px"></a>
+        <li class="layui-nav-item"><a th:href="@{/index}">首页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/introduce}">长恨歌介绍</a></li>
+        <li class="layui-nav-item layui-this"><a th:href="@{/plot}">长恨歌剧情</a></li>
+        <li class="layui-nav-item"><a th:href="@{/order}">长恨歌预定</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">常见问题</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd><a th:href="@{/transportation}">交通方式</a></dd>
+                <dd><a th:href="@{/seat}">座位图</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">关于我们</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <span th:text="*{loginUser}"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/profile}">基本资料</a></dd>
+                <dd><a th:href="@{/user/security}">安全设置</a></dd>
+                <dd><a th:href="@{/user/user-order}">我的预定</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a th:href="@{/user/logout}">注销</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/login}">登录</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/register}">注册</a>
+        </li>
+    </ul>
+</div>
+
+<br /><br />
+
+    <div class="layui-main">
+        <h1 style="text-align: center">长恨歌</h1>
+        <hr />
+
+        <div class="layui-row">
+            <div class="tips layui-col-md10 layui-col-lg10 layui-col-md-offset1">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header" style="font-size: 18px; text-align: center"><b>中国首部实景历史舞剧</b></div>
+                    <div class="layui-card-body">
+                        <div class="layui-text" style="text-align: center">
+                            朝代：唐代 作者：白居易 原文：<br /><br />
+
+                            汉皇重色思倾国，御宇多年求不得。杨家有女初长成，养在深闺人未识。<br />
+
+                            天生丽质难自弃，一朝选在君王侧。回眸一笑百媚生，六宫粉黛无颜色。<br />
+
+                            春寒赐浴华清池，温泉水滑洗凝脂。侍儿扶起娇无力，始是新承恩泽时。<br />
+
+                            云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。<br />
+
+
+
+                            承欢侍宴无闲暇，春从春游夜专夜。后宫佳丽三千人，三千宠爱在一身。<br />
+
+                            金屋妆成娇侍夜，玉楼宴罢醉和春。姊妹弟兄皆列土，可怜光彩生门户。
+                            <br />
+                            遂令天下父母心，不重生男重生女。骊宫高处入青云，仙乐风飘处处闻。<br />
+
+                            缓歌慢舞凝丝竹，尽日君王看不足。渔阳鼙鼓动地来，惊破霓裳羽衣曲。<br />
+
+
+
+                            九重城阙烟尘生，千乘万骑西南行。翠华摇摇行复止，西出都门百余里。<br />
+
+                            六军不发无奈何，宛转蛾眉马前死。花钿委地无人收，翠翘金雀玉搔头。<br />
+
+                            君王掩面救不得，回看血泪相和流。黄埃散漫风萧索，云栈萦纡登剑阁。<br />
+
+                            峨嵋山下少人行，旌旗无光日色薄。蜀江水碧蜀山青，圣主朝朝暮暮情。
+                            <br />
+
+
+                            行宫见月伤心色，夜雨闻铃肠断声。天旋地转回龙驭，到此踌躇不能去。<br />
+
+                            马嵬坡下泥土中，不见玉颜空死处。君臣相顾尽沾衣，东望都门信马归。<br />
+
+                            归来池苑皆依旧，太液芙蓉未央柳。芙蓉如面柳如眉，对此如何不泪垂。<br />
+
+                            春风桃李花开日，秋雨梧桐叶落时。西宫南内多秋草，落叶满阶红不扫。<br />
+
+                            <br />
+
+                            梨园弟子白发新，椒房阿监青娥老。夕殿萤飞思悄然，孤灯挑尽未成眠。<br />
+
+                            迟迟钟鼓初长夜，耿耿星河欲曙天。鸳鸯瓦冷霜华重，翡翠衾寒谁与共。<br />
+
+                            悠悠生死别经年，魂魄不曾来入梦。临邛道士鸿都客，能以精诚致魂魄。<br />
+
+                            为感君王辗转思，遂教方士殷勤觅。排空驭气奔如电，升天入地求之遍。<br /><br />
+
+
+
+                            上穷碧落下黄泉，两处茫茫皆不见。忽闻海上有仙山，山在虚无缥渺间。<br />
+
+                            楼阁玲珑五云起，其中绰约多仙子。中有一人字太真，雪肤花貌参差是。<br />
+
+                            金阙西厢叩玉扃，转教小玉报双成。闻道汉家天子使，九华帐里梦魂惊。<br />
+
+                            揽衣推枕起徘徊，珠箔银屏迤逦开。云鬓半偏新睡觉，花冠不整下堂来。<br />
+
+                            <br />
+
+                            风吹仙袂飘飘举，犹似霓裳羽衣舞。玉容寂寞泪阑干，梨花一枝春带雨。<br />
+
+                            含情凝睇谢君王，一别音容两渺茫。昭阳殿里恩爱绝，蓬莱宫中日月长。<br />
+
+                            回头下望人寰处，不见长安见尘雾。惟将旧物表深情，钿合金钗寄将去。<br />
+
+                            钗留一股合一扇，钗擘黄金合分钿。但教心似金钿坚，天上人间会相见。<br />
+                            <br />
+
+
+                            临别殷勤重寄词，词中有誓两心知。七月七日长生殿，夜半无人私语时。<br />
+
+                            在天愿作比翼鸟，在地愿为连理枝。天长地久有时尽，此恨绵绵无绝期。<br /><br /><br />
+
+
+
+                            《长恨歌》节目介绍<br />
+
+
+
+                            　　序幕：杨家有女初长成<br />
+
+                            　　一朵美丽的荷花绽放在清波荡漾的九龙湖上。披着长纱的杨玉环从花中翩然而出。娇柔的身影，如玉的容颜，璀璨了苍翠山峦，朦胧了烟树龙榭。夜容中，杨玉环如仙女一般，飘然而来，将人们带回到那段远去的历史……<br /><br />
+
+                            第一幕：《一朝选在君王侧》<br />
+
+                            第二幕：《夜半无人私语时》<br />
+
+                            第三幕：《春寒赐浴华清池》<br />
+
+                            第四幕：《惊破霓裳羽衣曲》<br />
+
+                            第五幕：《玉楼宴罢醉和春》<br />
+
+                            第六幕：《仙乐风飘处处闻》<br />
+
+                            第七幕：《三千宠爱在一身》<br />
+
+                            第八幕：《渔阳鼙鼓动地来》<br />
+
+                            第九幕：《花钿委地无人收》<br /><br />
+
+                            　　寒风雪天中，唐明皇回到长安城，杨贵妃的颜容笑貌在他的脑海中萦绕徘徊，令他肝肠寸断。睡梦中，他入蓬莱仙境与杨玉环相会。两人泪眼相望，尽诉相思，再续前缘。仙女们手持彩绸飘然起舞，华丽优雅的“霓裳羽衣舞”似风吹仙袂，为这对有情人能在仙宫相会而乐，无数白鸽凌空飞翔，表达着“在天愿作比翼鸟，在地愿为连理枝”的美好祝愿。
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br />
+
+    <div class="layui-footer footer layui-col-md12">
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">长恨歌预定</h2><br />
+            <span class="layui-text">
+                长恨歌介绍，长恨歌演出时间，长恨歌观看攻略，长恨歌门票预订(非官网)
+            </span>
+        </div>
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">联系方式</h2><br />
+            <span class="layui-text">
+                邮箱 bmingyy@qq.com<br />
+                电话 1234556788
+            </span>
+        </div>
+    </div>
+    <div class="footer-end">
+        <center>
+            <div class="footer-end-some layui-text">
+                声明：本站非长恨歌官方网站,景点详情由我们根据公开信息整理而成.
+            </div>
+        </center>
+    </div>
+
+
+
+    <script th:src="@{/resources/layui/layui.js}"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+            //一些事件监听
+            element.on('tab(demo)', function (data) {
+                console.log(data);
+            });
+        });
+        layui.use('carousel', function () {
+            var carousel = layui.carousel;
+            //建造实例
+            carousel.render({
+                elem: '#lunbotu',
+                width: '80%', //设置容器宽度
+                height: '600px',
+                arrow: 'always' //始终显示箭头
+                //,anim: 'updown' //切换动画方式
+            });
+        });
+    </script>
+</body>
+
+</html>

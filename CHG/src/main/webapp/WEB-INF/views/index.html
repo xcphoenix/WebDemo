@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>长恨歌售票系统</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+</head>
+
+<body>
+<div class="header">
+    <ul class="layui-nav" lay-filter="">
+        <a th:href="@{/index}"><img class="layui-icon" th:src="@{/resources/images/logo.png}"
+                                   style="width: 30px; height: 30px"></a>
+        <li class="layui-nav-item layui-this"><a th:href="@{/index}">首页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/introduce}">长恨歌介绍</a></li>
+        <li class="layui-nav-item"><a th:href="@{/plot}">长恨歌剧情</a></li>
+        <li class="layui-nav-item"><a th:href="@{/order}">长恨歌预定</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">常见问题</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd><a th:href="@{/transportation}">交通方式</a></dd>
+                <dd><a th:href="@{/seat}">座位图</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">关于我们</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <span th:text="*{loginUser}"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/profile}">基本资料</a></dd>
+                <dd><a th:href="@{/user/security}">安全设置</a></dd>
+                <dd><a th:href="@{/user/user-order}">我的预定</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a th:href="@{/user/logout}">注销</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/login}">登录</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/register}">注册</a>
+        </li>
+    </ul>
+</div>
+
+<br/><br/>
+<div class="layui-carousel" id="lunbotu" style="margin: 0 auto;">
+    <div carousel-item>
+        <div><img alt="" src="https://i1.kknews.cc/SIG=2keunlh/19sr0001sq9s9n3o85q0.jpg" width="80%"/><br/>
+        </div>
+        <div><img alt="" src="https://i1.kknews.cc/SIG=ogr6p8/19so0003p84r3o6203ro.jpg" width="80%"/></div>
+        <div><img alt="" src="https://i1.kknews.cc/SIG=3lh3bth/19sn0003p2p325s7o120.jpg" width="80%"/></div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="layui-container" style="width: auto;">
+        <br/><br/>
+        <div class="some layui-text" style="text-align: center">
+            <h1><b>长恨歌</b></h1> <br/>
+            <span>中国首部大型山水历史舞剧</span>
+            <br/>
+            <hr class="layui-col-md4 layui-col-md-offset4" style="color: aqua !important">
+            <br/><br/>
+        </div>
+
+        <div class="layui-row">
+            <div class="tips layui-col-md10 layui-col-md-offset1">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header" style="font-size: 18px"><b>温馨提示</b></div>
+                    <div class="layui-card-body">
+                        2019年演出时间：3月24日-10月31日。<br/>
+                        第一场 20:10-21:20（19:30望京门安检入园）；第二场 21:40-22:50（21:20 津阳门安检入园）。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/><br/>
+
+        <div class="layui-row layui-col-space20">
+            <div class="tips layui-col-md10 layui-col-md-offset1">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header" style="font-size: 18px; "><b>长恨歌介绍</b></div>
+                    <div class="layui-card-body">
+                        舞剧《长恨歌》4月至10月每晚上演，舞剧全长70分钟。全剧由“杨家有女初长成”、“一朝选在君王侧”、“夜半无人私语时”、“春寒赐浴华清池”、“骊
+                        宫高处入青云”、“玉楼宴罢醉和春”、“仙乐风飘处处闻”、“渔阳鼙鼓动地来”、“花钿委地无人收”、“天上人间会相见”等十幕组成，通过山水风光、古典乐舞、诗歌旁白、高科技灯光音响及特效等表现手法，充分展示了大唐盛世的恢宏气象和千古绝唱的爱情传奇，让观众穿越时空，领略一千多年前发生在骊山脚下、
+                        华清池畔的凄美爱情故事，感受浓郁的盛唐文化气息。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/><br/><br/>
+
+        <div class="some layui-text" style="text-align: center">
+            <h2><b>我们的优势</b></h2> <br/>
+        </div>
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-md2 layui-col-md-offset1">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header layui-bg-blue"><b>第一</b></div>
+                    <div class="layui-card-body">
+                        国内唯一的真山真水真历史的户外大型情景舞剧
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header layui-bg-cyan"><b>第二</b></div>
+                    <div class="layui-card-body">
+                        亚洲唯一的20×9米全天候折叠式全色真彩LED软屏.
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header layui-bg-green"><b>第三</b></div>
+                    <div class="layui-card-body">
+                        国内首创水中机械组合多变式立体活动防滑舞台.
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header layui-bg-black"><b>第四</b></div>
+                    <div class="layui-card-body">
+                        国内首创户外演出设施全隐蔽式设计.
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header layui-bg-orange"><b>第五</b></div>
+                    <div class="layui-card-body">
+                        国内首家户外演出可伸缩坐椅.
+                        <br/><br/></div>
+                </div>
+            </div>
+        </div>
+        <br/><br/><br/>
+
+    </div>
+</div>
+
+<div class="layui-footer footer layui-col-md12">
+    <div class="footer-block layui-col-md4 layui-col-md-offset1">
+        <h2 style="color: white">长恨歌预定</h2><br/>
+        <span class="layui-text">
+                长恨歌介绍，长恨歌演出时间，长恨歌观看攻略，长恨歌门票预订(非官网)
+            </span>
+    </div>
+    <div class="footer-block layui-col-md4 layui-col-md-offset1">
+        <h2 style="color: white">联系方式</h2><br/>
+        <span class="layui-text">
+                邮箱 bmingyy@qq.com<br/>
+                电话 1234556788
+            </span>
+    </div>
+</div>
+<div class="footer-end">
+    <center>
+        <div class="footer-end-some layui-text">
+            声明：本站非长恨歌官方网站,景点详情由我们根据公开信息整理而成.
+        </div>
+    </center>
+</div>
+
+
+<script th:src="@{/resources/layui/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+        //一些事件监听
+        element.on('tab(demo)', function (data) {
+            console.log(data);
+        });
+    });
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#lunbotu',
+            width: '80%', //设置容器宽度
+            height: '600px',
+            arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+</script>
+</body>
+
+</html>

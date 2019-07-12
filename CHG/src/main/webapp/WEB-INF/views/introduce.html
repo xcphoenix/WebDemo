@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>长恨歌售票系统</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/layui/css/layui.css}">
+
+</head>
+
+<body>
+<div class="header">
+    <ul class="layui-nav" lay-filter="">
+        <a th:href="@{/index}"><img class="layui-icon" th:src="@{/resources/images/logo.png}"
+                                    style="width: 30px; height: 30px"></a>
+        <li class="layui-nav-item"><a th:href="@{/index}">首页</a></li>
+        <li class="layui-nav-item layui-this"><a th:href="@{/introduce}">长恨歌介绍</a></li>
+        <li class="layui-nav-item"><a th:href="@{/plot}">长恨歌剧情</a></li>
+        <li class="layui-nav-item"><a th:href="@{/order}">长恨歌预定</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">常见问题</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd><a th:href="@{/transportation}">交通方式</a></dd>
+                <dd><a th:href="@{/seat}">座位图</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">关于我们</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <span th:text="*{loginUser}"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/profile}">基本资料</a></dd>
+                <dd><a th:href="@{/user/security}">安全设置</a></dd>
+                <dd><a th:href="@{/user/user-order}">我的预定</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" th:if="${loginUser}">
+            <a th:href="@{/user/logout}">注销</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/login}">登录</a>
+        </li>
+        <li class="layui-nav-item" th:unless="${loginUser}">
+            <a th:href="@{/register}">注册</a>
+        </li>
+    </ul>
+</div>
+
+
+<br /><br />
+
+    <div class="layui-main">
+        <h1 style="text-align: center">长恨歌</h1>
+        <hr />
+
+        <div class="layui-row">
+            <div class="tips layui-col-md10 layui-col-lg10 layui-col-md-offset1">
+                <div class="layui-card" style="font-size: 16px">
+                    <div class="layui-card-header" style="font-size: 18px; text-align: center"><b>中国首部实景历史舞剧</b></div>
+                    <div class="layui-card-body">
+                        <div class="layui-text">
+                            长恨歌----中国首部大型山水历史舞剧
+                            中国首部大型山水历史舞剧《长恨歌》，以“两情相悦”、“恃宠而娇”、“生离死别”、“仙境重逢”等四个层次十一幕情景，由700名专业演员组成强大阵
+                            容，以势造情，以舞诉情，在故事的原发地艺术地再现了这一动人的爱情故事。
+                            故事背景：盛唐时期，唐明皇召杨玉环入宫，至爱至宠。安禄山叛乱后，杨玉环在马嵬坡被众将士逼迫而死，唐明皇肝肠寸断。后得以魂魄升天与爱妃在月宫相会。
+                            二人执手泪眼，互诉思念之情，并誓言“在天愿作比翼鸟，在地愿为连理枝”。<br /><br />
+
+
+                            ◆开创5个第一<br />
+                            第一、国内唯一的真山真水真历史的户外大型情景舞剧。<br />
+                            第二、亚洲唯一的20×9米全天候折叠式全色真彩LED软屏。<br />
+                            第三、国内首创水中机械组合多变式立体活动防滑舞台——九龙湖主辅舞台是由九块可单独运行的机械板块组成，总面积547.5平方米。<br />
+                            第四、国内首创户外演出设施全隐蔽式设计——九龙湖主辅舞台白天全部隐蔽在湖水面以下；四组6米高供演出专用的灯光音响架白天全部隐蔽在地下；湖中26×20米巨型软屏，创造无限多媒体视像背景，衬托剧情意境；上下舞台主副舞台两侧设四组隐蔽式设备等多种特效设施白天全部隐蔽在湖水，山体及景观中。<br />
+                            第五、国内首家户外演出可伸缩坐椅。<br /><br />
+
+                            ◆星星灯<br />
+                            在骊山北坡大约宽600米高300米的范围内，密布着1800颗、3组的星星灯，灯体量身订制，交替闪耀，置身现场，犹如仰望繁星闪烁的夜空，不禁为之震撼。<br />
+                            设计方案在业内尚属先例，其面积之大也是国内第一。<br /><br />
+
+                            ◆雾森、山涧瀑布<br />
+                            在舞台正后方的山涧里安装了一组雾森，可以产生厚重的大雾，沿山涧滚滚而下，在瀑布灯、投影灯的配合下，犹如瀑布飞泻而下，波涛汹涌。同时，在湖边、树上、鹊桥上、演员的服装上都安装了不同规格的雾森喷头，根据剧情的需要制造神秘效果，云雾萦绕，犹如人间仙境。雾森应用面积之大亚洲第一。<br /><br />
+
+                            ◆火海<br />
+                            此技术一改过去只喷射火柱的效果，可以瞬间让整个湖面燃起熊熊大火，配合音响、灯光、气爆弹、冷焰火等现场效果，让人仿佛置身古战场，兵戈铁马、杀声震天，同时，大火还可以随心所欲的控制，不需要时可转瞬即逝。<br />
+                            据悉，全世界只几处应用了火海技术，能掌握这项技术的也仅两三家，国内引进尚属首次。<br /><br />
+
+
+                            ◆大功率投影灯<br />
+                            以骊山宽600米高300米的范围为幕，用16台4千瓦的投影灯制造出巨型画面，并可根据剧情的需要任意更换胶片，设置场景。当这些大的投影灯开始工作，整个骊山北坡似乎成了一块天然的超大屏幕，光影交替间，时空回转、亦幻亦真。
+                            此设备是北京星光特意为项目提升工程开发研制，大功率的投影灯开创了世界之最，覆盖面积之大也是世界第一。<br /><br />
+
+                            ◆全天候折叠式全色真彩LED软体大屏幕<br />
+                            演出时，在龙吟榭的正背后有一张宽26米高20米的折叠式LED大软屏，在龙吟榭的东西两侧，也各有一张高15米宽9.6米的大软屏，配合剧情需要，可制作出视频特效，展现盛世辉煌，而平时，三块大屏幕则被隐藏起来，不影响周围景致的和谐。较大的一块LED软屏是中国最大的可折叠可隐藏式大屏幕，其机械配合升降装置开创了中国之最。<br /><br />
+
+                            ◆利用现代高科技手段制造的幻影龙吟、倩舞拱桥、飞天特技、动感地带等景象，使夜晚的华清宫更加梦幻美丽。<br /><br />
+
+                            　　中国首部大型山水历史舞剧《长恨歌》，以“两情相悦”、“恃宠而娇”、“生离死别”、“仙境重逢”等四个层次十一幕情景，由300名专业演员组成强大阵容，以势造情，以舞诉情，在故事的原发地艺术地再现了这一动人的爱情故事。<br /><br />
+
+                            　　该剧斥资亿元，阵容强大，气势恢宏。它以骊山山体为背景，以华清池九龙湖做舞台，以亭、榭、廊、殿、垂柳、湖水为舞美元素，运用领先世界水平的高科技手段，营造了万星闪烁的梦幻天空，滚滚而下的森林雾瀑，熊熊燃烧的湖面火海以及三组约700平米的LED软屏和近千平米全隐蔽式可升降水下舞台，将历史与现实、自然与文化、人间与仙界、传统与时尚有机交融，演绎了一篇神奇的历史乐章，成就了一个杰出的艺术典范。<br /><br />
+
+                            舞剧所采用的高科技：采用了目前亚洲甚至是世界最先进的硬件设施和手段。为了烘托《长恨歌》的恢宏场面，安装了亚洲最大的隐蔽式LED软屏（宽45米、高18米）；在九龙湖水下，采用了全球最先进的美国拉斯韦加斯火海技术，实现了在水面上火球、火海熊熊燃烧的效果；骊山山体采用了国内最先进的星星灯技术，满山星斗与天相连；利用山体自然条件，采用LED带灯程控技术，产生流动瀑布效果；采用了香港香雾效果，根据故事情节，从嗅觉上使观众产生身临其境的效果；采用了香港威亚技术（2套、跨度200余米），实现了舞台多度空间效果；采用了国内最先进的水雾（雾森）技术，与舞美、灯光效果结合，舞台犹如仙境一般；观众看台采用了伸缩座椅的车载式移动组合看台；<br /><br />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br />
+
+    <div class="layui-footer footer layui-col-md12">
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">长恨歌预定</h2><br />
+            <span class="layui-text">
+                长恨歌介绍，长恨歌演出时间，长恨歌观看攻略，长恨歌门票预订(非官网)
+            </span>
+        </div>
+        <div class="footer-block layui-col-md4 layui-col-md-offset1">
+            <h2 style="color: white">联系方式</h2><br />
+            <span class="layui-text">
+                邮箱 bmingyy@qq.com<br />
+                电话 1234556788
+            </span>
+        </div>
+    </div>
+    <div class="footer-end">
+        <center>
+            <div class="footer-end-some layui-text">
+                声明：本站非长恨歌官方网站,景点详情由我们根据公开信息整理而成.
+            </div>
+        </center>
+    </div>
+
+
+
+    <script th:src="@{/resources/layui/layui.js}"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+            //一些事件监听
+            element.on('tab(demo)', function (data) {
+                console.log(data);
+            });
+        });
+        layui.use('carousel', function () {
+            var carousel = layui.carousel;
+            //建造实例
+            carousel.render({
+                elem: '#lunbotu',
+                width: '80%', //设置容器宽度
+                height: '600px',
+                arrow: 'always' //始终显示箭头
+                //,anim: 'updown' //切换动画方式
+            });
+        });
+    </script>
+</body>
+
+</html>

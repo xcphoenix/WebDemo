@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XiyouLinuxGroup - SFD 2019</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+
+<section class="display"></section>
+<div id="bg-filter">
+    <br><br>
+    <section class="output"></section>
+</div>
+
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="js/l-by-l.min.js"></script>
+<script>
+
+    var $output = $(".output"),
+        $display = $(".display"),
+        timer, coord = ["t", "rt", "lt", "b", "rb", "lb", "l", "r"];
+
+    var snoData = null;
+    var mutex = false;
+    var luckDrawMutex = false;
+
+    function isPrime(n) {
+
+        var i = 2, n = n || 1;
+        if (n === 1) {
+            return false;
+        }
+        if (n < 4) {
+            return true;
+        }
+
+        while (i < n) {
+            if (n % i === 0) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+
+    }
+
+    function outputPrime(n, c) {
+        if (n) {
+            $output.append("<i class='prime" + c + "'>" + n + "</i>");
+        }
+    }
+
+    function outputNormal(n) {
+        if (n) {
+            $output.append("<i>" + n + "</i>");
+        }
+    }
+    
+    var n = 0,
+        work, scroll,
+        paused = true;
+
+    function calcPrimes() {
+
+        var dataSize = snoData.length;
+        var pos = Math.floor(Math.random() * (dataSize - 0));
+        n = snoData[pos];
+        var c, p;
+        clearInterval(work);
+        work = setInterval(function () {
+            c = Math.floor(Math.random() * 6);
+            p = isPrime(pos);
+
+            if (!p) {
+                outputNormal(n);
+            } else {
+                outputPrime(n, c);
+            }
+            window.scrollTo({
+                left: 0,
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
+            display(n, p, c, false);
+
+            pos = Math.floor(Math.random() * (dataSize - 0));
+            n = snoData[pos];
+        }, 33);
+
+    }
+
+    function pauseWork() {
+        clearInterval(work);
+    }
+
+    function scrollWindow() {
+
+        scroll = setInterval(function () {
+            $("body").animate({
+                "scrollTop": $("body").height() - 80
+            }, 200);
+        }, 2000);
+
+    }
+
+    function pauseScroll() {
+        clearInterval(scroll);
+    }
+
+    function display(n, prime, c, single) {
+
+        var $temp, pos;
+        if (n) {
+
+            if (!single) {
+                $display.text(n);
+            } else {
+
+                mutex = true;
+
+                console.log("content: " + n);
+                var msgArray = n.split(/[\s\n]/);
+
+                $display.empty();
+                $display.lbyl({
+                    content: msgArray[1],
+                    speed: 700, //time between each new letter being added
+                    type: 'fade', // 'show' or 'fade'
+                    fadeSpeed: 600, // Only relevant when the 'type' is set to 'fade'
+                    finished: function () {
+                        $display.append("<br><span id='display-name' style='display: none;'>" +
+                            msgArray[0] + "</span>");
+                        $('#display-name').fadeIn(1000);
+                        $display.addClass("show");
+                        $("#bg-filter").addClass("frosted-glass");
+
+                        // unlock
+                        mutex = false;
+                        console.log('finished');
+                    } // Finished Callback
+                });
+            }
+
+            if (prime) {
+                pos = Math.floor(Math.random() * coord.length);
+
+                $temp = $display
+                    .clone()
+                    .addClass("prime c" + c)
+                    .insertAfter($display);
+
+                setTimeout(function () {
+                    $temp
+                        .addClass("out")
+                        .addClass(coord[pos]);
+                }, 10);
+
+                setTimeout(function () {
+                    $temp.remove();
+                }, 1200);
+            }
+        }
+    }
+    
+    $(document).keydown(function (event) {
+        
+        if (mutex === true || luckDrawMutex === true) {
+            console.log('error-01: 无效操作');
+            return;
+        }
+        if (event.keyCode !== 32 || snoData === null) {
+            console.log('error-02: 无效操作');
+            return;
+        }
+        console.log('触发有效按键');
+
+        // stop
+        if (!paused) {
+            pauseScroll();
+            pauseWork();
+            
+            // ajax
+            var settings = {
+                "url": "http://url:port/luckDraw",
+                "method": "GET",
+                "timeout": 0,
+                "success": function (data) {
+                    console.log("success");
+                    var outputMsg = data.name + "\n" + data.sno;
+                    display(outputMsg, true, 4, true);
+                }
+            };
+
+            luckDrawMutex = true;
+            console.log('抽奖中....');
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                luckDrawMutex = false;
+            });
+        }
+        // run
+        else {
+            $display.removeClass("show");
+            $("#bg-filter").removeClass("frosted-glass");
+            $output.empty();
+            mutex = false;
+            scrollWindow();
+            calcPrimes();
+
+        }
+        paused = !paused;
+    });
+
+    // 页面加载完成时　初始化数据，获取全部学号
+    $(document).ready(function () {
+
+        var settings = {
+            "url": "http://url:port/luckInit",
+            "method": "GET",
+            "timeout": 0,
+            "tryCount": 0,
+            "retryLimit": 3
+        };
+
+        // 初始化
+        // $.ajax(settings).done(function (response) {
+        //     console.log(response);
+        // });
+
+        // 获取全部学号
+        settings.url = "http://url:port/luckAll";
+        settings.success = function (data) {
+            snoData = data;
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+
+    })
+
+</script>
+</body>
+</html>
